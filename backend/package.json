@@ -1,0 +1,13 @@
+{
+  "name": "chain-funder-backend",
+  "version": "1.0.0",
+  "description": "smart contract for chain-funder",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["smart contract", "solidity"],
+  "author": "ThomasCode92",
+  "license": "ISC",
+  "devDependencies": {}
+}

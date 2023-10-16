@@ -1,0 +1,15 @@
+{
+  "name": "chain-funder",
+  "version": "1.0.0",
+  "description": "platform for seamless campaign management",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["web3", "solidity"],
+  "author": "ThomasCode92",
+  "license": "ISC",
+  "devDependencies": {
+    "prettier": "^3.0.3",
+    "prettier-plugin-solidity": "^1.1.3"
+  }
+}

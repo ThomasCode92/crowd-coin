@@ -6,6 +6,13 @@ contract Campaign {
     uint256 public minimumContribution;
     address[] public approvers;
 
+    struct Request {
+        string description;
+        uint256 value;
+        address recipient;
+        bool complete;
+    }
+
     constructor(uint256 minimum) {
         manager = msg.sender;
         minimumContribution = minimum;

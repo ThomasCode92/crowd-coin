@@ -5,12 +5,18 @@ contract Campaign {
     address public manager;
     uint256 public minimumContribution;
     address[] public approvers;
+    Request[] public requests;
 
     struct Request {
         string description;
         uint256 value;
         address recipient;
         bool complete;
+    }
+
+    modifier restricted() {
+        require(msg.sender == manager);
+        _;
     }
 
     constructor(uint256 minimum) {

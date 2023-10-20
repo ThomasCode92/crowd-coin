@@ -4,7 +4,7 @@ pragma solidity ^0.8.21;
 contract Campaign {
     address public manager;
     uint256 public minimumContribution;
-    address[] public approvers;
+    mapping(address => bool) public approvers;
     Request[] public requests;
 
     struct Request {
@@ -26,7 +26,7 @@ contract Campaign {
 
     function contribute() public payable {
         require(msg.value >= minimumContribution);
-        approvers.push(msg.sender);
+        approvers[msg.sender] = true;
     }
 
     function approveRequest(Request memory request) public {
@@ -50,6 +50,8 @@ contract Campaign {
         uint256 value,
         address recipient
     ) public restricted {
+        require(approvers[msg.sender]);
+
         Request memory request = Request({
             description: description,
             value: value,

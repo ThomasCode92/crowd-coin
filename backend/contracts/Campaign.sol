@@ -4,14 +4,17 @@ pragma solidity ^0.8.21;
 contract Campaign {
     address public manager;
     uint256 public minimumContribution;
+    uint private currentRequestIndex = 0;
     mapping(address => bool) public approvers;
-    Request[] public requests;
+    mapping(uint => Request) public requests;
 
     struct Request {
         string description;
-        uint256 value;
+        uint value;
         address recipient;
         bool complete;
+        uint approvalCount;
+        mapping(address => bool) approvals;
     }
 
     modifier restricted() {
@@ -47,18 +50,17 @@ contract Campaign {
 
     function createRequest(
         string memory description,
-        uint256 value,
-        address recipient
-    ) public restricted {
-        require(approvers[msg.sender]);
+        uint value,
+        address payable recipient
+    ) public payable restricted {
+        Request storage request = requests[currentRequestIndex];
 
-        Request memory request = Request({
-            description: description,
-            value: value,
-            recipient: recipient,
-            complete: false
-        });
+        request.description = description;
+        request.value = value;
+        request.recipient = recipient;
+        request.complete = false;
+        request.approvalCount = 0;
 
-        requests.push(request);
+        currentRequestIndex++;
     }
 }

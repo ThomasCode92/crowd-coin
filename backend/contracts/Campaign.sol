@@ -32,20 +32,17 @@ contract Campaign {
         approvers[msg.sender] = true;
     }
 
-    function approveRequest(Request memory request) public {
+    function approveRequest(uint256 requestIndex) public {
+        Request storage request = requests[requestIndex];
+
         // Make sure person calling this function has donated
-        bool isApprover = false;
-        for (uint i = 0; i < approvers.length; i++) {
-            if (approvers[i] == msg.sender) {
-                isApprover = true;
-            }
-        }
-        require(isApprover);
+        require(approvers[msg.sender]);
 
         // Make sure person calling this function hasn't voted before
-        for (uint i = 0; i < request.approvers.length; i++) {
-            require(approvers != msg.sender);
-        }
+        require(request.approvals[msg.sender]);
+
+        request.approvals[msg.sender] = true;
+        request.approvalCount++;
     }
 
     function createRequest(

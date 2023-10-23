@@ -4,13 +4,14 @@ pragma solidity ^0.8.21;
 contract Campaign {
     address public manager;
     uint256 public minimumContribution;
+    uint256 public approversCount;
     mapping(address => bool) public approvers;
     Request[] public requests;
 
     struct Request {
         string description;
         uint value;
-        address recipient;
+        address payable recipient;
         bool complete;
         uint approvalCount;
         mapping(address => bool) approvals;
@@ -29,6 +30,7 @@ contract Campaign {
     function contribute() public payable {
         require(msg.value >= minimumContribution);
         approvers[msg.sender] = true;
+        approversCount++;
     }
 
     function approveRequest(uint256 requestIndex) public {
@@ -53,5 +55,15 @@ contract Campaign {
         request.recipient = recipient;
         request.complete = false;
         request.approvalCount = 0;
+    }
+
+    function finalizeRequest(uint256 requestIndex) public restricted {
+        Request storage request = requests[requestIndex];
+
+        require(request.approvalCount > approversCount / 2);
+        require(!request.complete);
+
+        request.complete = true;
+        request.recipient.transfer(request.value);
     }
 }

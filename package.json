@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "platform for seamless campaign management",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "compile": "node ./ethereum/scripts/compile"
   },
   "keywords": [
     "web3",

@@ -27,7 +27,7 @@ beforeEach(async () => {
 
   factory = await new web3.eth.Contract(compiledFactory)
     .deploy({ data: '0x' + factoryBytecode })
-    .send({ from: accounts[0], gas: '1000000' });
+    .send({ from: accounts[0], gas: '2000000' });
 
   await factory.methods
     .createCampaign('100')
@@ -35,4 +35,11 @@ beforeEach(async () => {
 
   [campaignAddress] = await factory.methods.getDeployedCampaigns().call();
   campaign = new web3.eth.Contract(compiledCampaign, campaignAddress);
+});
+
+describe('Campaign', () => {
+  test('should deploy a factory and a campaign contract', () => {
+    expect(factory.options.address).toBeDefined();
+    expect(campaign.options.address).toBeDefined();
+  });
 });

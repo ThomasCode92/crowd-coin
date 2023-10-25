@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "platform for seamless campaign management",
   "scripts": {
-    "compile": "node ./ethereum/scripts/compile"
+    "compile": "node ./ethereum/scripts/compile",
+    "test": "jest ./test"
   },
   "keywords": [
     "web3",

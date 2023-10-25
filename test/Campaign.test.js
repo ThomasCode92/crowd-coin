@@ -16,7 +16,7 @@ const contracts = ['Campaign.sol', 'CampaignFactory.sol'];
 // Read the bytecode from the file system
 const [campaignBytecode, factoryBytecode] = contracts.map(contract => {
   const filename = contract.replace('.sol', '.bin');
-  const bytecodePath = path.join(__dirname, 'ethereum', 'dist', filename);
+  const bytecodePath = path.join(__dirname, '..', 'ethereum', 'dist', filename);
   return fs.readFileSync(bytecodePath, 'utf8');
 });
 
@@ -27,5 +27,12 @@ beforeEach(async () => {
 
   factory = await new web3.eth.Contract(compiledFactory)
     .deploy({ data: '0x' + factoryBytecode })
-    .send({ from: accounts[0], gas: 1000000 });
+    .send({ from: accounts[0], gas: '1000000' });
+
+  await factory.methods
+    .createCampaign('100')
+    .send({ from: accounts[0], gas: '1000000' });
+
+  [campaignAddress] = await factory.methods.getDeployedCampaigns().call();
+  campaign = new web3.eth.Contract(compiledCampaign, campaignAddress);
 });

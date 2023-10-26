@@ -63,4 +63,14 @@ describe('Campaign', () => {
       campaign.methods.contribute().send({ value: '10', from: accounts[1] }),
     ).rejects.toBeDefined();
   });
+
+  test('should allow a manager to make a payment request', async () => {
+    await campaign.methods
+      .createRequest('Buy Batteries', '100', accounts[1])
+      .send({ from: accounts[0], gas: '1000000' });
+
+    const request = await campaign.methods.requests(0).call();
+
+    expect(request.description).toBe('Buy Batteries');
+  });
 });

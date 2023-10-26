@@ -42,4 +42,19 @@ describe('Campaign', () => {
     expect(factory.options.address).toBeDefined();
     expect(campaign.options.address).toBeDefined();
   });
+
+  test('should mark the caller as the campaign manager', async () => {
+    const manager = await campaign.methods.manager().call();
+    expect(manager).toEqual(accounts[0]);
+  });
+
+  test('should allow people to contribute money and mark them as approvers', async () => {
+    await campaign.methods
+      .contribute()
+      .send({ value: '200', from: accounts[1] });
+
+    const isContributor = await campaign.methods.approvers(accounts[1]).call();
+
+    expect(isContributor).toBeTruthy();
+  });
 });

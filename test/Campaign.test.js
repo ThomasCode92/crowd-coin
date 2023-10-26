@@ -57,4 +57,10 @@ describe('Campaign', () => {
 
     expect(isContributor).toBeTruthy();
   });
+
+  test('should require a minimum contribution', async () => {
+    await expect(
+      campaign.methods.contribute().send({ value: '10', from: accounts[1] }),
+    ).rejects.toBeDefined();
+  });
 });

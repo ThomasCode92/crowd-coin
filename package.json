@@ -2,7 +2,11 @@
   "name": "chain-funder",
   "version": "1.0.0",
   "description": "platform for seamless campaign management",
+  "author": "ThomasCode92",
   "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
     "compile": "node ./ethereum/scripts/compile",
     "deploy": "node ./ethereum/scripts/deploy",
     "test": "jest ./test"
@@ -11,11 +15,13 @@
     "web3",
     "solidity"
   ],
-  "author": "ThomasCode92",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.3.1",
     "ganache": "^7.9.1",
+    "next": "^14.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "solc": "^0.8.21",
     "web3": "^4.2.0"
   },

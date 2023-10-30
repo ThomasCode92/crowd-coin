@@ -1,3 +1,3 @@
 export default function Home() {
-  return <h1>Welcome to Chain Funder</h1>;
+  return <h1>Welcome to Crowd Coin</h1>;
 }

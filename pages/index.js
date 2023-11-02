@@ -12,7 +12,7 @@ export default function Home({ campaigns }) {
 
   return (
     <Fragment>
-      <h1>Welcome to Crowd Coin</h1>
+      <h1>Open Campaigns</h1>
       <Card.Group items={campaignItems} />
       <Button content="Create Campaign" icon="add circle" primary />
     </Fragment>

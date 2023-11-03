@@ -1,9 +1,10 @@
 import { Fragment } from 'react';
+import Header from './Header';
 
 export default function Layout({ children }) {
   return (
     <Fragment>
-      <header>I'm a header</header>
+      <Header />
       <main>{children}</main>
     </Fragment>
   );

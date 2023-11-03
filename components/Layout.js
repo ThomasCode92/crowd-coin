@@ -1,11 +1,11 @@
-import { Fragment } from 'react';
+import { Container } from 'semantic-ui-react';
 import Header from './Header';
 
 export default function Layout({ children }) {
   return (
-    <Fragment>
+    <Container>
       <Header />
       <main>{children}</main>
-    </Fragment>
+    </Container>
   );
 }

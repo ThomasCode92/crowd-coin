@@ -13,8 +13,13 @@ export default function Home({ campaigns }) {
   return (
     <Fragment>
       <h1>Open Campaigns</h1>
+      <Button
+        content="Create Campaign"
+        icon="add circle"
+        primary
+        floated="right"
+      />
       <Card.Group items={campaignItems} />
-      <Button content="Create Campaign" icon="add circle" primary />
     </Fragment>
   );
 }

@@ -11,10 +11,12 @@ export default function NewCampaign() {
     event.preventDefault();
 
     const accounts = await web3.eth.getAccounts();
+    const { createCampaign } = campaignFactory.methods;
 
-    await campaignFactory.methods
-      .createCampaign(minimumContribution)
-      .send({ from: accounts[0] });
+    await createCampaign(minimumContribution).send({
+      from: accounts[0],
+      data: createCampaign(minimumContribution).encodeABI(),
+    });
   };
 
   return (

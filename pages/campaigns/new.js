@@ -1,13 +1,26 @@
 import { Fragment, useState } from 'react';
 import { Button, Form, Input } from 'semantic-ui-react';
 
+import campaignFactory from '@/utils/factory';
+import web3 from '@/utils/web3';
+
 export default function NewCampaign() {
   const [minimumContribution, setMinimumContribution] = useState('');
+
+  const submitHandler = async event => {
+    event.preventDefault();
+
+    const accounts = await web3.eth.getAccounts();
+
+    await campaignFactory.methods
+      .createCampaign(minimumContribution)
+      .send({ from: accounts[0] });
+  };
 
   return (
     <Fragment>
       <h1>Create a Campaign</h1>
-      <Form>
+      <Form onSubmit={submitHandler}>
         <Form.Field>
           <label>Minimum Contribution</label>
           <Input

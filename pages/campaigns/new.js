@@ -1,4 +1,5 @@
 import { Fragment, useState } from 'react';
+import { useRouter } from 'next/router';
 import { Button, Form, Input, Message } from 'semantic-ui-react';
 
 import campaignFactory from '@/utils/factory';
@@ -8,6 +9,8 @@ export default function NewCampaign() {
   const [minimumContribution, setMinimumContribution] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  const router = useRouter();
 
   const submitHandler = async event => {
     event.preventDefault();
@@ -22,6 +25,8 @@ export default function NewCampaign() {
         from: accounts[0],
         data: createCampaign(minimumContribution).encodeABI(),
       });
+
+      router.push('/');
     } catch (error) {
       setErrorMessage(error.message);
     }

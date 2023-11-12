@@ -7,9 +7,12 @@ import web3 from '@/utils/web3';
 export default function NewCampaign() {
   const [minimumContribution, setMinimumContribution] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const submitHandler = async event => {
     event.preventDefault();
+
+    setIsLoading(true);
 
     try {
       const accounts = await web3.eth.getAccounts();
@@ -22,6 +25,8 @@ export default function NewCampaign() {
     } catch (error) {
       setErrorMessage(error.message);
     }
+
+    setIsLoading(false);
   };
 
   return (
@@ -37,8 +42,13 @@ export default function NewCampaign() {
             onChange={event => setMinimumContribution(event.target.value)}
           />
         </Form.Field>
-        <Message error header="Something went wrong!" content={errorMessage} />
-        <Button primary content="Create" />
+        <Message
+          error
+          header="Something went wrong!"
+          content={errorMessage}
+          onDismiss={() => setErrorMessage('')}
+        />
+        <Button primary loading={isLoading} content="Create" />
       </Form>
     </Fragment>
   );

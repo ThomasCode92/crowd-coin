@@ -1,4 +1,4 @@
-import { getCampaign } from '@/utils/campaign';
+import { getCampaign, getCampaignSummary } from '@/utils/campaign';
 
 export default function showCampaign() {
   return <div>Show Campaign</div>;
@@ -7,7 +7,8 @@ export default function showCampaign() {
 export async function getServerSideProps(context) {
   const campaign = getCampaign(context.query.address);
 
-  const summary = await campaign.methods.getSummary().call();
+  const summaryData = await campaign.methods.getSummary().call();
+  const summary = getCampaignSummary(summaryData);
 
   return { props: { summary } };
 }

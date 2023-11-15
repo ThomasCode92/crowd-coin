@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { Card } from 'semantic-ui-react';
+import { Card, Grid } from 'semantic-ui-react';
 
 import {
   getCampaign,
@@ -14,8 +14,14 @@ export default function showCampaign(props) {
   return (
     <Fragment>
       <h1>Campaign details</h1>
-      <Card.Group items={campaignDetails} />
-      <ContributeForm />
+      <Grid>
+        <Grid.Column width={10}>
+          <Card.Group items={campaignDetails} />
+        </Grid.Column>
+        <Grid.Column width={6}>
+          <ContributeForm />
+        </Grid.Column>
+      </Grid>
     </Fragment>
   );
 }

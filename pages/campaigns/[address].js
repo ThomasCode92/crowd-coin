@@ -19,7 +19,7 @@ export default function showCampaign(props) {
           <Card.Group items={campaignDetails} />
         </Grid.Column>
         <Grid.Column width={6}>
-          <ContributeForm />
+          <ContributeForm address={props.address} />
         </Grid.Column>
       </Grid>
     </Fragment>
@@ -32,5 +32,5 @@ export async function getServerSideProps(context) {
   const summaryData = await campaign.methods.getSummary().call();
   const summary = getCampaignSummary(summaryData);
 
-  return { props: { summary } };
+  return { props: { address: context.query.address, summary } };
 }

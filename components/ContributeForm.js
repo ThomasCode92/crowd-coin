@@ -1,11 +1,15 @@
 import { useState } from 'react';
 import { Button, Form, Input } from 'semantic-ui-react';
 
-export default function ContributeForm() {
+import { getCampaign } from '@/utils/campaign';
+
+export default function ContributeForm({ address }) {
   const [contribution, setContribution] = useState('');
 
   const submitHandler = event => {
     event.preventDefault();
+
+    const campaign = getCampaign(address);
   };
 
   return (

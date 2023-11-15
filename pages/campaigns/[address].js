@@ -6,6 +6,7 @@ import {
   getCampaignDetails,
   getCampaignSummary,
 } from '@/utils/campaign';
+import ContributeForm from '@/components/ContributeForm';
 
 export default function showCampaign(props) {
   const campaignDetails = getCampaignDetails(props.summary);
@@ -14,6 +15,7 @@ export default function showCampaign(props) {
     <Fragment>
       <h1>Campaign details</h1>
       <Card.Group items={campaignDetails} />
+      <ContributeForm />
     </Fragment>
   );
 }

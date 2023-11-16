@@ -1,3 +1,5 @@
+import { getCampaign } from '@/utils/campaign';
+import web3 from '@/utils/web3';
 import { Fragment, useState } from 'react';
 import { Button, Form, Input } from 'semantic-ui-react';
 
@@ -6,10 +8,30 @@ export default function NewRequest({ address }) {
   const [value, setValue] = useState('');
   const [recipient, setRecipient] = useState('');
 
+  const submitHandler = async event => {
+    event.preventDefault();
+
+    try {
+      const accounts = await web3.eth.getAccounts();
+
+      const campaign = getCampaign(address);
+      const { createRequest } = campaign.methods;
+
+      const valueInWei = web3.utils.toWei(value, 'ether');
+
+      await createRequest(description, valueInWei, recipient).send({
+        from: accounts[0],
+        data: createRequest(description, valueInWei, recipient).encodeABI(),
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Fragment>
       <h1>Create a Request</h1>
-      <Form>
+      <Form onSubmit={submitHandler}>
         <Form.Field>
           <label>Description</label>
           <Input

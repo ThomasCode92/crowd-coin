@@ -1,15 +1,17 @@
 import { Fragment } from 'react';
-import { Card, Grid } from 'semantic-ui-react';
+import Link from 'next/link';
+import { Button, Card, Grid } from 'semantic-ui-react';
+
+import ContributeForm from '@/components/ContributeForm';
 
 import {
   getCampaign,
   getCampaignDetails,
   getCampaignSummary,
 } from '@/utils/campaign';
-import ContributeForm from '@/components/ContributeForm';
 
-export default function showCampaign(props) {
-  const campaignDetails = getCampaignDetails(props.summary);
+export default function showCampaign({ address, summary }) {
+  const campaignDetails = getCampaignDetails(summary);
 
   return (
     <Fragment>
@@ -17,9 +19,12 @@ export default function showCampaign(props) {
       <Grid>
         <Grid.Column width={10}>
           <Card.Group items={campaignDetails} />
+          <Link href={`/campaigns/${address}/requests`}>
+            <Button primary>View Requests</Button>
+          </Link>
         </Grid.Column>
         <Grid.Column width={6}>
-          <ContributeForm address={props.address} />
+          <ContributeForm address={address} />
         </Grid.Column>
       </Grid>
     </Fragment>

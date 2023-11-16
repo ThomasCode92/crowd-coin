@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 import { Button, Form, Input } from 'semantic-ui-react';
 
 import { getCampaign } from '@/utils/campaign';
@@ -6,6 +7,8 @@ import web3 from '@/utils/web3';
 
 export default function ContributeForm({ address }) {
   const [contribution, setContribution] = useState('');
+
+  const router = useRouter();
 
   const submitHandler = async event => {
     event.preventDefault();
@@ -21,6 +24,8 @@ export default function ContributeForm({ address }) {
         value: web3.utils.toWei(contribution, 'ether'),
         data: contribute().encodeABI(),
       });
+
+      router.reload();
     } catch (error) {}
   };
 

@@ -17,15 +17,21 @@ export default function showCampaign({ address, summary }) {
     <Fragment>
       <h1>Campaign details</h1>
       <Grid>
-        <Grid.Column width={10}>
-          <Card.Group items={campaignDetails} />
-          <Link href={`/campaigns/${address}/requests`}>
-            <Button primary>View Requests</Button>
-          </Link>
-        </Grid.Column>
-        <Grid.Column width={6}>
-          <ContributeForm address={address} />
-        </Grid.Column>
+        <Grid.Row>
+          <Grid.Column width={10}>
+            <Card.Group items={campaignDetails} />
+          </Grid.Column>
+          <Grid.Column width={6}>
+            <ContributeForm address={address} />
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row>
+          <Grid.Column>
+            <Link href={`/campaigns/${address}/requests`}>
+              <Button primary>View Requests</Button>
+            </Link>
+          </Grid.Column>
+        </Grid.Row>
       </Grid>
     </Fragment>
   );

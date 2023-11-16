@@ -1,17 +1,22 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { Button, Form, Input } from 'semantic-ui-react';
+import { Button, Form, Input, Message } from 'semantic-ui-react';
 
 import { getCampaign } from '@/utils/campaign';
 import web3 from '@/utils/web3';
 
 export default function ContributeForm({ address }) {
   const [contribution, setContribution] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
 
   const submitHandler = async event => {
     event.preventDefault();
+
+    setIsLoading(true);
+    setErrorMessage('');
 
     try {
       const accounts = await web3.eth.getAccounts();
@@ -26,11 +31,16 @@ export default function ContributeForm({ address }) {
       });
 
       router.reload();
-    } catch (error) {}
+    } catch (error) {
+      setErrorMessage(error.message);
+    }
+
+    setIsLoading(false);
+    setContribution('');
   };
 
   return (
-    <Form onSubmit={submitHandler}>
+    <Form error={Boolean(errorMessage)} onSubmit={submitHandler}>
       <Form.Field>
         <label>Amount to Contribute</label>
         <Input
@@ -40,7 +50,13 @@ export default function ContributeForm({ address }) {
           onChange={event => setContribution(event.target.value)}
         />
       </Form.Field>
-      <Button primary>Contribute</Button>
+      <Message
+        error
+        header="Something went wrong!"
+        content={errorMessage}
+        onDismiss={() => setErrorMessage('')}
+      />
+      <Button primary loading={isLoading} content="Contribute" />
     </Form>
   );
 }

@@ -1,15 +1,25 @@
-import { getCampaign } from '@/utils/campaign';
-import web3 from '@/utils/web3';
 import { Fragment, useState } from 'react';
-import { Button, Form, Input } from 'semantic-ui-react';
+import { useRouter } from 'next/router';
+import { Button, Form, Input, Message } from 'semantic-ui-react';
+
+import web3 from '@/utils/web3';
+import { getCampaign } from '@/utils/campaign';
+import Link from 'next/link';
 
 export default function NewRequest({ address }) {
   const [description, setDescription] = useState('');
   const [value, setValue] = useState('');
   const [recipient, setRecipient] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const router = useRouter();
 
   const submitHandler = async event => {
     event.preventDefault();
+
+    setIsLoading(true);
+    setErrorMessage('');
 
     try {
       const accounts = await web3.eth.getAccounts();
@@ -23,15 +33,22 @@ export default function NewRequest({ address }) {
         from: accounts[0],
         data: createRequest(description, valueInWei, recipient).encodeABI(),
       });
+
+      router.push(`/campaigns/${address}/requests`);
     } catch (error) {
-      console.log(error);
+      setErrorMessage(error.message);
     }
+
+    setIsLoading(false);
+    setDescription('');
+    setValue('');
+    setRecipient('');
   };
 
   return (
     <Fragment>
       <h1>Create a Request</h1>
-      <Form onSubmit={submitHandler}>
+      <Form error={Boolean(errorMessage)} onSubmit={submitHandler}>
         <Form.Field>
           <label>Description</label>
           <Input
@@ -53,7 +70,16 @@ export default function NewRequest({ address }) {
             onChange={event => setRecipient(event.target.value)}
           />
         </Form.Field>
-        <Button primary content="Create" />
+        <Message
+          error
+          header="Something went wrong!"
+          content={errorMessage}
+          onDismiss={() => setErrorMessage('')}
+        />
+        <Button primary loading={isLoading} content="Create" />
+        <Link href={`/campaigns/${address}/requests`}>
+          <Button secondary>Back</Button>
+        </Link>
       </Form>
     </Fragment>
   );

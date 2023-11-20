@@ -27,7 +27,11 @@ export default function CampaignRequests({ address, requests }) {
         </Table.Header>
         <Table.Body>
           {requests.map((request, idx) => (
-            <RequestRow key={idx} request={request} address={address} />
+            <RequestRow
+              key={idx}
+              request={{ idx, ...request }}
+              address={address}
+            />
           ))}
         </Table.Body>
       </Table>

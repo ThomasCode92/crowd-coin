@@ -2,9 +2,11 @@ import { Fragment } from 'react';
 import Link from 'next/link';
 import { Button, Table } from 'semantic-ui-react';
 
+import RequestRow from '@/components/RequestRow';
+
 import { getCampaign } from '@/utils/campaign';
 
-export default function CampaignRequests({ address }) {
+export default function CampaignRequests({ address, requests }) {
   return (
     <Fragment>
       <h1>Request List</h1>
@@ -23,6 +25,11 @@ export default function CampaignRequests({ address }) {
             <Table.HeaderCell>Finalize</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
+        <Table.Body>
+          {requests.map((request, idx) => (
+            <RequestRow key={idx} request={request} address={address} />
+          ))}
+        </Table.Body>
       </Table>
     </Fragment>
   );

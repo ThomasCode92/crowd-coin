@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 import Link from 'next/link';
-import { Button } from 'semantic-ui-react';
+import { Button, Table } from 'semantic-ui-react';
 
 import { getCampaign } from '@/utils/campaign';
 
@@ -11,6 +11,19 @@ export default function CampaignRequests({ address }) {
       <Link href={`/campaigns/${address}/requests/new`}>
         <Button primary>Add Request</Button>
       </Link>
+      <Table>
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell>ID</Table.HeaderCell>
+            <Table.HeaderCell>Description</Table.HeaderCell>
+            <Table.HeaderCell>Amount</Table.HeaderCell>
+            <Table.HeaderCell>Recipient</Table.HeaderCell>
+            <Table.HeaderCell>Approval Count</Table.HeaderCell>
+            <Table.HeaderCell>Approve</Table.HeaderCell>
+            <Table.HeaderCell>Finalize</Table.HeaderCell>
+          </Table.Row>
+        </Table.Header>
+      </Table>
     </Fragment>
   );
 }

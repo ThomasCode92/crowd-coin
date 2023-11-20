@@ -6,7 +6,11 @@ import RequestRow from '@/components/RequestRow';
 
 import { getCampaign } from '@/utils/campaign';
 
-export default function CampaignRequests({ address, requests }) {
+export default function CampaignRequests({
+  address,
+  requests,
+  approversCount,
+}) {
   return (
     <Fragment>
       <h1>Request List</h1>
@@ -30,6 +34,7 @@ export default function CampaignRequests({ address, requests }) {
             <RequestRow
               key={idx}
               request={{ idx, ...request }}
+              approversCount={approversCount}
               address={address}
             />
           ))}
@@ -46,6 +51,8 @@ export async function getServerSideProps(context) {
   const requestsCount = Number(
     await campaign.methods.getRequestsCount().call(),
   );
+
+  const approversCount = Number(await campaign.methods.approversCount().call());
 
   let requests = await Promise.all(
     Array(requestsCount)
@@ -64,5 +71,5 @@ export async function getServerSideProps(context) {
     return { description, value, recipient, complete, approvalCount };
   });
 
-  return { props: { address, requests } };
+  return { props: { address, requests, approversCount } };
 }

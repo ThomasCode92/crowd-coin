@@ -4,7 +4,7 @@ import web3 from '@/utils/web3';
 import { getCampaign } from '@/utils/campaign';
 
 export default function RequestRow({ request, approversCount, address }) {
-  const handleApprove = async () => {
+  const approveHandler = async () => {
     const accounts = await web3.eth.getAccounts();
 
     const campaign = getCampaign(address);
@@ -13,6 +13,18 @@ export default function RequestRow({ request, approversCount, address }) {
     await approveRequest(request.idx).send({
       from: accounts[0],
       data: approveRequest(request.idx).encodeABI(),
+    });
+  };
+
+  const finalizeHandler = async () => {
+    const accounts = await web3.eth.getAccounts();
+
+    const campaign = getCampaign(address);
+    const { finalizeRequest } = campaign.methods;
+
+    await finalizeRequest(request.idx).send({
+      from: accounts[0],
+      data: finalizeRequest(request.idx).encodeABI(),
     });
   };
 
@@ -26,8 +38,13 @@ export default function RequestRow({ request, approversCount, address }) {
         {request.approvalCount}/{approversCount}
       </Table.Cell>
       <Table.Cell>
-        <Button basic color="green" onClick={handleApprove}>
+        <Button basic color="green" onClick={approveHandler}>
           Approve
+        </Button>
+      </Table.Cell>
+      <Table.Cell>
+        <Button basic color="teal" onClick={finalizeHandler}>
+          Finalize
         </Button>
       </Table.Cell>
     </Table.Row>

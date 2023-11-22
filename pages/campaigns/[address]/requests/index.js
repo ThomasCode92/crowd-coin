@@ -10,13 +10,25 @@ export default function CampaignRequests({
   address,
   requests,
   approversCount,
+  requestsCount,
 }) {
   return (
     <Fragment>
-      <h1>Request List</h1>
-      <Link href={`/campaigns/${address}/requests/new`}>
-        <Button primary>Add Request</Button>
-      </Link>
+      <div
+        style={{
+          margin: '1rem 0',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}
+      >
+        <h1 style={{ margin: 0 }}>Request List</h1>
+        <Link href={`/campaigns/${address}/requests/new`}>
+          <Button primary floated="right">
+            Add Request
+          </Button>
+        </Link>
+      </div>
       <Table>
         <Table.Header>
           <Table.Row>
@@ -40,6 +52,7 @@ export default function CampaignRequests({
           ))}
         </Table.Body>
       </Table>
+      <div>Found {requestsCount} requests</div>
     </Fragment>
   );
 }
@@ -71,5 +84,5 @@ export async function getServerSideProps(context) {
     return { description, value, recipient, complete, approvalCount };
   });
 
-  return { props: { address, requests, approversCount } };
+  return { props: { address, requests, approversCount, requestsCount } };
 }
